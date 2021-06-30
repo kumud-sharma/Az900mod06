@@ -1,0 +1,42 @@
+{
+	 "if": {
+	    "anyOf": [
+		 {
+			"not": {
+			  "anyOf": [
+                    {
+				    "field": "type",
+				    "like": "Microsoft.Sql/servers/*"
+				    },
+                    {
+				    "field": "type",
+				    "like": "Microsoft.Sql/servers/databases/*"
+				    },
+                    {
+				    "field": "type",
+				    "in": ["Microsoft.Sql/servers", "Microsoft.Sql/servers/databases"]
+				    }
+                ]
+			}
+		 },
+         {
+		  "allof":[
+			{
+			  "field": "type",
+			  "equals": "Microsoft.SQL/servers/databases"
+			},
+			{
+			  "not":{
+					"field": "Microsoft.Sql/servers/databases/requestedServiceObjectiveName",
+					"in": ["GP_Gen5_2", "System2"]
+			  }
+			}
+		  ]
+		}
+
+	  ]
+	},
+	"then": {
+	  "effect": "deny"
+	}
+}
